@@ -30,8 +30,7 @@ const CursorChat = ({ cursor, cursorState, setCursorState, updateMyPresence }: C
             style={{ transform: `translateX(${cursor.x}px) translateY(${cursor.y}px)`}}>
             {cursorState.mode === CursorMode.Chat && (
                 <div>
-                    <CursorSVG
-                        color="#000"
+                    <CursorSVG color="#000"
                     />
 
                     <div
