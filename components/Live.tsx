@@ -1,6 +1,6 @@
 import LiveCursors from "@/components/cursor/LiveCursors";
 import {useMyPresence, useOthers} from "@/liveblocks.config";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import CursorChat from "@/components/cursor/CursorChat";
 import {CursorMode} from "@/types/type";
 
@@ -67,24 +67,19 @@ const Live = () => {
             onPointerMove={handlePointerMove}
             onPointerLeave={handlePointerLeave}
             onPointerDown={handlePointerDown}
-            className="h-[100vh] w-full flex justify-center items-center text-center"
+            className="h-screen w-full flex justify-center items-center text-center"
         >
-            <h1 className="text-2xl text-white">Liveblocks Figma Clone</h1>
+            <h1 style={{fontSize: '2rem', color: 'white'}}>Liveblocks Figma Clone</h1>
             {cursor && (
-                <>
                 <CursorChat
                     cursor={cursor}
                     cursorState={cursorState}
                     setCursorState={setCursorState}
-                    updateMyPresence={updateMyPresence}>
-                </CursorChat>
-                </>
+                    updateMyPresence={updateMyPresence}
+                />
             )}
-            <>
-            <LiveCursors
-                others={others}>
-            </LiveCursors>
-            </>
+            <LiveCursors others={others}
+            />
         </div>
     )
 }
