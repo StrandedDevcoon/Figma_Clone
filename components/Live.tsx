@@ -71,14 +71,20 @@ const Live = () => {
         >
             <h1 className="text-2xl text-white">Liveblocks Figma Clone</h1>
             {cursor && (
+                <>
                 <CursorChat
                     cursor={cursor}
                     cursorState={cursorState}
                     setCursorState={setCursorState}
-                    updateMyPresence={updateMyPresence}
-                />
+                    updateMyPresence={updateMyPresence}>
+                </CursorChat>
+                </>
             )}
-            <LiveCursors others={others} />
+            <>
+            <LiveCursors
+                others={others}>
+            </LiveCursors>
+            </>
         </div>
     )
 }

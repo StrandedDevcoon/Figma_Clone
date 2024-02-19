@@ -22,9 +22,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${workSans.className} bg-primary-grey-200 `}>
+      <>
         <Room>
           {children}
         </Room>
+      </>
       </body>
     </html>
   );
