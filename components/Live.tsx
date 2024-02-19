@@ -61,12 +61,12 @@ const Live = () => {
 
             updateMyPresence({cursor: {x, y}});
         }
-    }, [])
+    }, [cursor, cursorState.mode, updateMyPresence])
 
     const handlePointerLeave = useCallback((event: React.PointerEvent) => {
         setCursorState({ mode: CursorMode.Hidden})
         updateMyPresence({ cursor: null, message: null });
-    }, [])
+    }, [updateMyPresence])
 
     const handlePointerUp = useCallback((event: React.PointerEvent) => {
         setCursorState((state: CursorState) => cursorState.mode === CursorMode.Reaction ? { ...state, isPressed: false } : state);
@@ -80,7 +80,7 @@ const Live = () => {
         updateMyPresence({ cursor: { x, y } });
 
         setCursorState((state: CursorState) => cursorState.mode === CursorMode.Reaction ? { ...state, isPressed: true } : state);
-    }, [cursorState.mode, setCursorState])
+    }, [cursorState.mode, updateMyPresence])
 
     const setReactions = useCallback((reaction: string) => {
         setCursorState({
