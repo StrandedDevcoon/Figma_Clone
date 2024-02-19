@@ -69,7 +69,7 @@ const Live = () => {
             onPointerDown={handlePointerDown}
             className="h-screen w-full flex justify-center items-center text-center"
         >
-            <h1 style={{fontSize: '2rem', color: 'white'}}>Liveblocks Figma Clone</h1>
+            <h1 className="text-2xl text-white">Liveblocks Figma Clone</h1>
             {cursor && (
                 <CursorChat
                     cursor={cursor}
