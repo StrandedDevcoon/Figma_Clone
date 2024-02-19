@@ -5,9 +5,7 @@
 @tailwind utilities;
 
 * {
-  font-family:
-          work sans,
-          sans-serif;
+  font-family: work sans, sans-serif;
 }
 
 @layer utilities {
