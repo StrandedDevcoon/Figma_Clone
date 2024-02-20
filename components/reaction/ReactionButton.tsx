@@ -1,21 +1,22 @@
 import React from "react";
+import {EmojiReaction} from "@/components/reaction/ReactionButtonEnums";
 
-type Props = {
+type ReactionSelectorProps = {
     setReaction: (reaction: string) => void;
 };
 
-export default function ReactionSelector({ setReaction }: Props) {
+export default function ReactionSelector({ setReaction }: ReactionSelectorProps) {
     return (
         <div
             className="absolute bottom-20 left-0 right-0 mx-auto w-fit transform rounded-full bg-white px-2"
             onPointerMove={(e) => e.stopPropagation()}
         >
-            <ReactionButton reaction="👍" onSelect={setReaction} />
-            <ReactionButton reaction="🔥" onSelect={setReaction} />
-            <ReactionButton reaction="😍" onSelect={setReaction} />
-            <ReactionButton reaction="👀" onSelect={setReaction} />
-            <ReactionButton reaction="😱" onSelect={setReaction} />
-            <ReactionButton reaction="🙁" onSelect={setReaction} />
+            <ReactionButton reaction={EmojiReaction.THUMBS_UP} onSelect={setReaction} />
+            <ReactionButton reaction={EmojiReaction.FIRE} onSelect={setReaction} />
+            <ReactionButton reaction={EmojiReaction.HEART_EYES} onSelect={setReaction} />
+            <ReactionButton reaction={EmojiReaction.EYES} onSelect={setReaction} />
+            <ReactionButton reaction={EmojiReaction.SCREAM} onSelect={setReaction} />
+            <ReactionButton reaction={EmojiReaction.FROWN} onSelect={setReaction} />
         </div>
     );
 }

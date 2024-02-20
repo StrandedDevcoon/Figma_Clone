@@ -92,19 +92,25 @@ const Live = () => {
 
     useEffect(() => {
         const onKeyUp = (e: KeyboardEvent) => {
-            if (e.key === '/') {
-                setCursorState( {
-                    mode: CursorMode.Chat,
-                    previousMessage: null,
-                    message: ''
-                })
-            } else if (e.key === 'Escape') {
-                updateMyPresence({ message: '' })
-                setCursorState({ mode: CursorMode.Hidden})
-            } else if (e.key === 'e') {
-                setCursorState({
-                    mode: CursorMode.ReactionSelector,
-                })
+            switch(e.key) {
+                case '/':
+                    setCursorState({
+                        mode: CursorMode.Chat,
+                        previousMessage: null,
+                        message: '',
+                    });
+                    break;
+                case 'Escape':
+                    updateMyPresence({ message: '' })
+                    setCursorState({ mode: CursorMode.Hidden });
+                    break;
+                case 'e':
+                    setCursorState({
+                        mode: CursorMode.ReactionSelector,
+                    })
+                    break;
+                default:
+                    break;
             }
         }
         const onKeyDown = (e: KeyboardEvent) => {
