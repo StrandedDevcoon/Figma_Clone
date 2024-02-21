@@ -42,24 +42,24 @@ const Navbar = ({ activeElement, imageInputRef, handleImageUpload, handleActiveE
                             />
                         ) : item?.value === "comments" ? (
                             <NewThread>
-                                <button className="relative w-5 h-5 object-contain">
+                                <Button className="relative w-5 h-5 object-contain">
                                     <Image
                                         src={item.icon}
                                         alt={item.name}
                                         fill
                                         className={isActive(item.value) ? "invert" : ""}
                                     />
-                                </button>
+                                </Button>
                             </NewThread>
                         ) : (
-                            <button className="relative w-5 h-5 object-contain">
+                            <Button className="relative w-5 h-5 object-contain">
                                 <Image
                                     src={item.icon}
                                     alt={item.name}
                                     fill
                                     className={isActive(item.value) ? "invert" : ""}
                                 />
-                            </button>
+                            </Button>
                         )}
                     </li>
                 ))}
