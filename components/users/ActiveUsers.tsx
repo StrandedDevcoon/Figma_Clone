@@ -15,7 +15,7 @@ const ActiveUsers = () => {
             <div className="flex items-center justify-center gap-1 py-2">
                 <div className="flex pl-3">
                     {currentUser && (
-                        <Avatar name="You" otherStyles="border-[3px] border-primary-green"/>
+                        <Avatar name="You" otherStyles="border-2 border-primary-green"/>
                     )}
                     {users.slice(0, 3).map(({connectionId}) => {
                         return (
