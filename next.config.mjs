@@ -8,7 +8,16 @@ const nextConfig = {
                 port: ''
             }
         ]
-    }
+    },
+    webpack: (config, { isServer }) => {
+        if (!isServer) {
+          config.node = {
+            fs: 'empty',
+            binaries: false,
+          };
+        }
+        return config;
+    },
 };
 
 export default nextConfig;
