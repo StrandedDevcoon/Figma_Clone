@@ -37,9 +37,7 @@ const OverlayThread = ({ thread, maxZIndex }: OverlayThreadProps) => {
   const threadRef = useRef<HTMLDivElement>(null);
 
   const handleIncreaseZIndex = useCallback(() => {
-    if (maxZIndex === thread.metadata.zIndex) {
-      return;
-    }
+    if (maxZIndex === thread.metadata.zIndex) return;
 
     editThreadMetadata({
       threadId: thread.id,
@@ -49,9 +47,7 @@ const OverlayThread = ({ thread, maxZIndex }: OverlayThreadProps) => {
     });
   }, [thread, editThreadMetadata, maxZIndex]);
 
-  if (isLoading) {
-    return null;
-  }
+  if (isLoading) return null;
 
   return (
     <div

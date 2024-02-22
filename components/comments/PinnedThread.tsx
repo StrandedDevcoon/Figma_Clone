@@ -32,9 +32,7 @@ export const PinnedThread = ({ thread, onFocus, ...props }: Props) => {
             e.target &&
             e.target.classList.contains("lb-icon") &&
             e.target.classList.contains("lb-button-icon")
-          ) {
-            return;
-          }
+          ) return;
 
           setMinimized(!minimized);
         }}

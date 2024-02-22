@@ -40,7 +40,7 @@ const Text = ({
   handleInputChange,
 }: TextProps) => (
   <div className='flex flex-col gap-3 border-b border-primary-grey-200 px-5 py-3'>
-    <h3 className='text-[10px] uppercase'>Text</h3>
+    <h3 className='text-xs uppercase'>Text</h3>
 
     <div className='flex flex-col gap-3'>
       {RenderSelect({
@@ -78,6 +78,33 @@ type Props = {
   handleInputChange: (property: string, value: string) => void;
 };
 
+const getSelectedValue = (config: Props) => {
+  const { fontSize, fontWeight, fontFamily, handleInputChange } = config;
+  switch (config.config.property) {
+    case "fontFamily":
+      return fontFamily;
+    case "fontSize":
+      return fontSize;
+    case "fontWeight":
+      return fontWeight;
+    default:
+      return "";
+  }
+}
+
+const getPlaceholder = (config: Props): string => {
+  switch (config.config.property){
+    case "fontFamily":
+      return "Choose a font";
+    case "fontSize":
+      return "30";
+    case "fontWeight":
+      return "Semibold";
+    default:
+      return "";
+  }
+}
+
 const RenderSelect = ({
   config,
   fontSize,
@@ -88,23 +115,10 @@ const RenderSelect = ({
   <Select
     key={config.property}
     onValueChange={(value) => handleInputChange(config.property, value)}
-    value={
-      config.property === "fontFamily"
-        ? fontFamily
-        : config.property === "fontSize"
-          ? fontSize
-          : fontWeight
-    }
+    value={getSelectedValue({config, fontSize, fontWeight, fontFamily, handleInputChange})}
   >
     <SelectTrigger className='no-ring w-full rounded-sm border border-primary-grey-200'>
-      <SelectValue
-        placeholder={
-          config.property === "fontFamily"
-            ? "Choose a font"
-            : config.property === "fontSize"
-              ? "30"
-              : "Semibold"
-        }
+      <SelectValue placeholder={getPlaceholder({config, fontSize, fontWeight, fontFamily, handleInputChange})}
       />
     </SelectTrigger>
     <SelectContent className='border-primary-grey-200 bg-primary-black text-primary-grey-300'>
@@ -120,5 +134,7 @@ const RenderSelect = ({
     </SelectContent>
   </Select>
 );
+
+
 
 export default Text;

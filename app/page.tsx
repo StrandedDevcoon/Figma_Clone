@@ -1,6 +1,6 @@
 "use client";
 
-import { fabric} from "fabric";
+import {fabric} from "fabric";
 
 import Live from "@/components/Live";
 import Navbar from "@/components/Navbar";
@@ -55,12 +55,12 @@ export default function Page() {
     return (
         <main className="h-screen overflow-hidden">
             <Navbar
-                activeElement={activeElement }
+                activeElement={activeElement}
                 handleActiveElement={handleActiveElement}
             />
                 <section className="flex h-full flex-row">
                     <LeftSidebar />
-                    <Live canvasRef={canvasRef}/>
+                    <Live canvasRef={canvasRef} />
                     <RightSidebar />
             </section>
       </main>

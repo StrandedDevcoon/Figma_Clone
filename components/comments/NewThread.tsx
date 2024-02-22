@@ -1,22 +1,17 @@
 "use client";
 
-import {
-  FormEvent,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { Slot } from "@radix-ui/react-slot";
+import {FormEvent, ReactNode, useCallback, useEffect, useRef, useState,} from "react";
+import {Slot} from "@radix-ui/react-slot";
 import * as Portal from "@radix-ui/react-portal";
-import { ComposerSubmitComment } from "@liveblocks/react-comments/primitives";
+import {ComposerSubmitComment} from "@liveblocks/react-comments/primitives";
 
-import { useCreateThread } from "@/liveblocks.config";
-import { useMaxZIndex } from "@/lib/useMaxZIndex";
+import {useCreateThread} from "@/liveblocks.config";
+import {useMaxZIndex} from "@/lib/useMaxZIndex";
 
 import PinnedComposer from "./PinnedComposer";
 import NewThreadCursor from "./NewThreadCursor";
+import CreatingCommentStateEnum from "@/components/comments/CreatingCommentStateEnum";
+import creatingCommentStateEnum from "@/components/comments/CreatingCommentStateEnum";
 
 type ComposerCoords = null | { x: number; y: number };
 
@@ -25,9 +20,7 @@ type NewThreadProps = {
 };
 
 export const NewThread = ({ children }: NewThreadProps) => {
-  const [creatingCommentState, setCreatingCommentState] = useState<
-    "placing" | "placed" | "complete"
-  >("complete");
+  const [creatingCommentState, setCreatingCommentState] = useState<CreatingCommentStateEnum>(CreatingCommentStateEnum.Complete);
 
 
   const createThread = useCreateThread();
@@ -43,14 +36,12 @@ export const NewThread = ({ children }: NewThreadProps) => {
   allowComposerRef.current = allowUseComposer;
 
   useEffect(() => {
-    if (creatingCommentState === "complete") {
-      return;
-    }
+    if (creatingCommentState === creatingCommentStateEnum.Complete) return;
 
     const newComment = (e: MouseEvent) => {
       e.preventDefault();
 
-      if (creatingCommentState === "placed") {
+      if (creatingCommentState === creatingCommentStateEnum.Placed) {
         const isClickOnComposer = ((e as any)._savedComposedPath = e
           .composedPath()
           .some((el: any) => {
@@ -62,12 +53,12 @@ export const NewThread = ({ children }: NewThreadProps) => {
         }
 
         if (!isClickOnComposer) {
-          setCreatingCommentState("complete");
+          setCreatingCommentState(creatingCommentStateEnum.Complete);
           return;
         }
       }
 
-      setCreatingCommentState("placed");
+      setCreatingCommentState(creatingCommentStateEnum.Placed);
       setComposerCoords({
         x: e.clientX,
         y: e.clientY,
@@ -98,14 +89,10 @@ export const NewThread = ({ children }: NewThreadProps) => {
   }, []);
 
   useEffect(() => {
-    if (creatingCommentState !== "placing") {
-      return;
-    }
+    if (creatingCommentState !== creatingCommentStateEnum.Placing) return;
 
     const handlePointerDown = (e: PointerEvent) => {
-      if (allowComposerRef.current) {
-        return;
-      }
+      if (allowComposerRef.current) return;
 
       (e as any)._savedComposedPath = e.composedPath();
       lastPointerEvent.current = e;
@@ -113,9 +100,9 @@ export const NewThread = ({ children }: NewThreadProps) => {
     };
 
     const handleContextMenu = (e: Event) => {
-      if (creatingCommentState === "placing") {
+      if (creatingCommentState === creatingCommentStateEnum.Placing) {
         e.preventDefault();
-        setCreatingCommentState("complete");
+        setCreatingCommentState(creatingCommentStateEnum.Complete);
       }
     };
 
@@ -141,9 +128,7 @@ export const NewThread = ({ children }: NewThreadProps) => {
 
       const overlayPanel = document.querySelector("#canvas");
 
-      if (!composerCoords || !lastPointerEvent.current || !overlayPanel) {
-        return;
-      }
+      if (!composerCoords || !lastPointerEvent.current || !overlayPanel) return;
 
       const { top, left } = overlayPanel.getBoundingClientRect();
       const x = composerCoords.x - left;
@@ -160,7 +145,7 @@ export const NewThread = ({ children }: NewThreadProps) => {
       });
 
       setComposerCoords(null);
-      setCreatingCommentState("complete");
+      setCreatingCommentState(creatingCommentStateEnum.Complete);
       setAllowUseComposer(false);
     },
     [createThread, composerCoords, maxZIndex]
@@ -171,15 +156,17 @@ export const NewThread = ({ children }: NewThreadProps) => {
       <Slot
         onClick={() =>
           setCreatingCommentState(
-            creatingCommentState !== "complete" ? "complete" : "placing"
+            creatingCommentState !== creatingCommentStateEnum.Complete
+                ? creatingCommentStateEnum.Complete
+                : creatingCommentStateEnum.Placing
           )
         }
-        style={{ opacity: creatingCommentState !== "complete" ? 0.7 : 1 }}
+        style={{ opacity: creatingCommentState !== creatingCommentStateEnum.Complete ? 0.7 : 1 }}
       >
         {children}
       </Slot>
 
-      {composerCoords && creatingCommentState === "placed" ? (
+      {composerCoords && creatingCommentState === creatingCommentStateEnum.Placed ? (
 
         <Portal.Root
           className='absolute left-0 top-0'
@@ -193,7 +180,7 @@ export const NewThread = ({ children }: NewThreadProps) => {
         </Portal.Root>
       ) : null}
 
-      <NewThreadCursor display={creatingCommentState === "placing"} />
+      <NewThreadCursor display={creatingCommentState === creatingCommentStateEnum.Placing} />
     </>
   );
 };

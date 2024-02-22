@@ -16,7 +16,6 @@ const NewThreadCursor = ({ display }: { display: boolean }) => {
       const canvas = document.getElementById("canvas");
 
       if (canvas) {
-
         const canvasRect = canvas.getBoundingClientRect();
 
         if (
@@ -56,9 +55,7 @@ const NewThreadCursor = ({ display }: { display: boolean }) => {
     }
   }, [display]);
 
-  if (!display) {
-    return null;
-  }
+  if (!display) return null;
 
   return (
     <Portal.Root>
