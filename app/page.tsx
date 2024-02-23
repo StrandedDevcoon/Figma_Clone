@@ -7,7 +7,13 @@ import Navbar from "@/components/Navbar";
 import LeftSidebar from "@/components/LeftSidebar";
 import RightSidebar from "@/components/RightSidebar";
 import {useEffect, useRef, useState} from "react";
-import {handleCanvasMouseMove, handleCanvasMouseDown, handleResize, initializeFabric} from "@/lib/canvas";
+import {
+    handleCanvasMouseMove,
+    handleCanvasMouseDown,
+    handleResize,
+    initializeFabric,
+    handleCanvasMouseUp, renderCanvas, handleCanvasObjectModified
+} from "@/lib/canvas";
 import {ActiveElement} from "@/types/type";
 import {useMutation, useStorage} from "@/liveblocks.config";
 import {object} from "prop-types";
@@ -18,6 +24,7 @@ export default function Page() {
     const isDrawing = useRef(false);
     const shapeRef = useRef<fabric.Object | null>(null);
     const selectedShapeRef = useRef<string | null>(null);
+    const activeObjectRef = useRef<fabric.Object | null>(null);
 
     const canvasObjects = useStorage((root) => root.canvasObjects);
     const syncShapeInStorage = useMutation(({storage}, object) => {
@@ -51,6 +58,18 @@ export default function Page() {
             fabricRef,
         });
 
+        canvas.on("mouse:up", () => {
+            handleCanvasMouseUp({
+                canvas,
+                selectedShapeRef,
+                isDrawing,
+                shapeRef,
+                syncShapeInStorage,
+                setActiveElement,
+                activeObjectRef,
+            });
+        });
+
         canvas.on("mouse:down", (options) => {
             handleCanvasMouseDown({
                 options,
@@ -72,6 +91,13 @@ export default function Page() {
             });
         });
 
+        canvas.on("object:modified", (options) => {
+            handleCanvasObjectModified({
+                options,
+                syncShapeInStorage
+            })
+        });
+
         window.addEventListener("resize", () => {
             handleResize({
                 canvas: fabricRef.current,
@@ -79,6 +105,15 @@ export default function Page() {
         });
 
     }, []);
+
+    useEffect(() => {
+        renderCanvas({
+            fabricRef,
+            canvasObjects,
+            activeObjectRef
+        })
+    }, [canvasObjects]);
+
     return (
         <main className="h-screen overflow-hidden">
             <Navbar
