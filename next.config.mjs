@@ -9,14 +9,12 @@ const nextConfig = {
             }
         ]
     },
-    webpack: (config, { isServer }) => {
-        if (!isServer) {
-          config.node = {
-            fs: 'empty',
-            binaries: false,
-          };
-        }
-        return config;
+    webpack: (
+        config,
+        { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }
+    ) => {
+        config.externals.push({ canvas: 'commonjs canvas' })
+        return config
     },
 };
 
