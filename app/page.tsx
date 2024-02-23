@@ -18,6 +18,7 @@ import {ActiveElement} from "@/types/type";
 import {useMutation, useStorage} from "@/liveblocks.config";
 import {object} from "prop-types";
 import {defaultNavElement} from "@/constants";
+import {handleDelete} from "@/lib/key-events";
 
 export default function Page() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -45,7 +46,7 @@ export default function Page() {
         name: '',
         value: '',
         icon: '',
-    })
+    });
 
     const deleteAllShapes = useMutation(({storage}) => {
         const canvasObjects = storage.get('canvasObjects')
@@ -57,7 +58,13 @@ export default function Page() {
         }
 
         return canvasObjects.size === 0;
-    }, [])
+    }, []);
+
+    const deleteShapeFromStorage = useMutation(({storage}, objectId) => {
+        const canvasObjects = storage.get('canvasObjects');
+
+        canvasObjects.delete(objectId);
+    }, []);
 
     const handleActiveElement = (elem: ActiveElement) => {
         setActiveElement(elem);
@@ -67,6 +74,10 @@ export default function Page() {
                 deleteAllShapes();
                 fabricRef.current?.clear();
                 setActiveElement(defaultNavElement);
+                break;
+            case 'delete':
+                handleDelete(fabricRef.current as any, deleteShapeFromStorage);
+                setActiveElement((defaultNavElement))
                 break;
             default:
                 break;
@@ -122,6 +133,10 @@ export default function Page() {
                 canvas: fabricRef.current,
             });
         });
+
+        return ( ) => {
+            canvas.dispose();
+        }
     }, []);
 
     useEffect(() => {
@@ -139,7 +154,7 @@ export default function Page() {
                 handleActiveElement={handleActiveElement}
             />
                 <section className="flex h-full flex-row">
-                    <LeftSidebar />
+                    <LeftSidebar allShapes={Array.from(canvasObjects)} />
                     <Live canvasRef={canvasRef} />
                     <RightSidebar />
             </section>
