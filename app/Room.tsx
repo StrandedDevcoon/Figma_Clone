@@ -12,7 +12,7 @@ export function Room({ children }: { children: ReactNode}) {
             initialPresence={{
                 cursor: null,
                 cursorColo: null,
-                editingText:null
+                editingText: null
             }}
             initialStorage={{
                 canvasObjects: new LiveMap()
