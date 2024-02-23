@@ -13,6 +13,7 @@ import {
 } from "@/types/type";
 import { defaultNavElement } from "@/constants";
 import { createSpecificShape } from "./shapes";
+import React from "react";
 
 export const initializeFabric = ({
   fabricRef,
@@ -77,7 +78,7 @@ export const handleCanvasMouseDown = ({
   }
 };
 
-export const handleCanvaseMouseMove = ({
+export const handleCanvasMouseMove = ({
   options,
   canvas,
   isDrawing,
