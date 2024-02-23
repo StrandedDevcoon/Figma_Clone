@@ -10,8 +10,7 @@ import {useMaxZIndex} from "@/lib/useMaxZIndex";
 
 import PinnedComposer from "./PinnedComposer";
 import NewThreadCursor from "./NewThreadCursor";
-import CreatingCommentStateEnum from "@/components/comments/CreatingCommentStateEnum";
-import creatingCommentStateEnum from "@/components/comments/CreatingCommentStateEnum";
+import creatingCommentStateEnum, {CreatingCommentStateEnum} from "@/components/comments/CreatingCommentStateEnum";
 
 type ComposerCoords = null | { x: number; y: number };
 
