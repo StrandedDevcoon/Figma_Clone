@@ -7,7 +7,7 @@ import Navbar from "@/components/Navbar";
 import LeftSidebar from "@/components/LeftSidebar";
 import RightSidebar from "@/components/RightSidebar";
 import {useEffect, useRef, useState} from "react";
-import {handleCanvasMouseDown, handleResize, initializeFabric} from "@/lib/canvas";
+import {handleCanvasMouseMove, handleCanvasMouseDown, handleResize, initializeFabric} from "@/lib/canvas";
 import {ActiveElement} from "@/types/type";
 import {useMutation, useStorage} from "@/liveblocks.config";
 import {object} from "prop-types";
@@ -58,6 +58,17 @@ export default function Page() {
                 selectedShapeRef,
                 isDrawing,
                 shapeRef,
+            });
+        });
+
+        canvas.on("mouse:move", (options) => {
+            handleCanvasMouseMove({
+                options,
+                canvas,
+                selectedShapeRef,
+                isDrawing,
+                shapeRef,
+                syncShapeInStorage,
             });
         });
 
