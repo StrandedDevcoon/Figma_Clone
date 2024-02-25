@@ -160,7 +160,6 @@ export default function Page() {
                 isEditingRef,
                 setElementAttributes,
                 isEditing: undefined
-
             });
         });
 
