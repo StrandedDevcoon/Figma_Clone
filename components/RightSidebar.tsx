@@ -68,9 +68,7 @@ const RightSidebar = ({
                 placeholder="stroke"
                 handleInputChange={handleInputChange}
             />
-            <Export
-                
-            />
+            <Export />
         </section>
     )
 }

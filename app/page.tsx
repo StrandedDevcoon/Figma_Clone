@@ -160,7 +160,6 @@ export default function Page() {
                 isEditingRef,
                 setElementAttributes,
                 isEditing: undefined
-
             });
         });
 
@@ -169,7 +168,7 @@ export default function Page() {
                 options,
                 setElementAttributes
             })
-        })
+        });
 
         window.addEventListener("resize", () => {
             handleResize({
