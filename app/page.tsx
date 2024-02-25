@@ -136,6 +136,7 @@ export default function Page() {
                 canvas: fabricRef.current,
             });
         });
+
         window.addEventListener("keydown", (e: any) => {
             handleKeyDown({
                 e,
