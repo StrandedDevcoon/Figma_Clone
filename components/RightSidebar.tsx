@@ -2,8 +2,32 @@ import Dimensions from "@/components/settings/Dimensions";
 import Color from "@/components/settings/Color";
 import Export from "@/components/settings/Export";
 import Text from "@/components/settings/Text";
+import {RightSidebarProps} from "@/types/type";
+import {modifyShape} from "@/lib/shapes";
+import {fabric} from "fabric";
 
-const RightSidebar = () => {
+const RightSidebar = ({
+    elementAttributes,
+    setElementAttributes,
+    fabricRef,
+    activeObjectRef,
+    isEditingRef,
+    syncShapeInStorage,
+}: RightSidebarProps) => {
+    const handleInputChange = (property:string, value: string) => {
+        if(!isEditingRef.current) isEditingRef.current = true;
+        setElementAttributes((prev) => ({
+            ...prev, [property]: value
+        }))
+
+        modifyShape({
+            canvas: fabricRef.current as fabric.Canvas,
+            property,
+            value,
+            activeObjectRef,
+            syncShapeInStorage,
+        })
+    }
     return (
         <section
             className="flex flex-col border-t border-primary-grey-200 bg-primary-black text-primary-grey-300
@@ -16,7 +40,12 @@ const RightSidebar = () => {
                 Make changes to canvas as you like
             </span>
 
-            <Dimensions />
+            <Dimensions
+                width={elementAttributes.width}
+                height={elementAttributes.height}
+                handleInputChange={handleInputChange}
+                isEditingRef={isEditingRef}
+            />
             <Text />
             <Color />
             <Color />
