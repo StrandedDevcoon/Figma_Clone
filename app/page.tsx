@@ -18,7 +18,7 @@ import {ActiveElement} from "@/types/type";
 import {useMutation, useRedo, useStorage, useUndo} from "@/liveblocks.config";
 import {object} from "prop-types";
 import {defaultNavElement} from "@/constants";
-import {handleDelete} from "@/lib/key-events";
+import {handleDelete, handleKeyDown} from "@/lib/key-events";
 
 export default function Page() {
      const undo = useUndo();
@@ -131,9 +131,21 @@ export default function Page() {
             })
         });
 
+
+
         window.addEventListener("resize", () => {
             handleResize({
                 canvas: fabricRef.current,
+            });
+        });
+        window.addEventListener("keydown", (e: any) => {
+            handleKeyDown({
+                e,
+                canvas: fabricRef.current,
+                undo,
+                redo,
+                syncShapeInStorage,
+                deleteShapeFromStorage,
             });
         });
 
