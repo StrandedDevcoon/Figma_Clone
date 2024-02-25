@@ -132,7 +132,6 @@ export default function Page() {
         });
 
 
-
         window.addEventListener("resize", () => {
             handleResize({
                 canvas: fabricRef.current,
