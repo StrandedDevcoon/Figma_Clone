@@ -1,5 +1,6 @@
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
+import React from "react";
 
 const dimensionsOptions = [
   { label: "W", property: "width" },
