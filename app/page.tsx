@@ -12,9 +12,13 @@ import {
     handleCanvasMouseDown,
     handleResize,
     initializeFabric,
-    handleCanvasMouseUp, renderCanvas, handleCanvasObjectModified
+    handleCanvasMouseUp,
+    renderCanvas,
+    handleCanvasObjectModified,
+    handleCanvasSelectionCreated,
+    handleCanvasObjectScaling
 } from "@/lib/canvas";
-import {ActiveElement} from "@/types/type";
+import {ActiveElement, Attributes} from "@/types/type";
 import {useMutation, useRedo, useStorage, useUndo} from "@/liveblocks.config";
 import {object} from "prop-types";
 import {defaultNavElement} from "@/constants";
@@ -32,8 +36,19 @@ export default function Page() {
     const selectedShapeRef = useRef<string | null>(null);
     const activeObjectRef = useRef<fabric.Object | null>(null);
     const imageInputRef = useRef<HTMLInputElement>(null);
+    const isEditingRef = useRef(false);
 
     const canvasObjects = useStorage((root) => root.canvasObjects);
+
+    const [elementAttributes, setElementAttributes] = useState<Attributes>({
+        fontWeight: "",
+        width: '',
+        height: '',
+        fontSize: '',
+        fontFamily: '',
+        fill: '#aabbcc',
+        stroke: '#aabbcc'
+    })
     const syncShapeInStorage = useMutation(({storage}, object) => {
         if(!object) return;
 
@@ -139,6 +154,21 @@ export default function Page() {
                 syncShapeInStorage
             })
         });
+        canvas.on("selection:created", (options: any) => {
+            handleCanvasSelectionCreated({
+                options,
+                isEditingRef,
+                setElementAttributes,
+                isEditing: undefined
+            });
+        });
+
+        canvas.on("object:scaling", (options: any) => {
+            handleCanvasObjectScaling({
+                options,
+                setElementAttributes
+            })
+        });
 
         window.addEventListener("resize", () => {
             handleResize({
@@ -189,7 +219,14 @@ export default function Page() {
                 <section className="flex h-full flex-row">
                     <LeftSidebar allShapes={Array.from(canvasObjects)} />
                     <Live canvasRef={canvasRef} />
-                    <RightSidebar />
+                    <RightSidebar
+                        elementAttributes={elementAttributes}
+                        setElementAttributes={setElementAttributes}
+                        fabricRef={fabricRef}
+                        isEditingRef={isEditingRef}
+                        activeObjectRef={activeObjectRef}
+                        syncShapeInStorage={syncShapeInStorage}
+                    />
             </section>
       </main>
     )
