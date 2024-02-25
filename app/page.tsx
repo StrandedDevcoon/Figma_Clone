@@ -12,7 +12,11 @@ import {
     handleCanvasMouseDown,
     handleResize,
     initializeFabric,
-    handleCanvasMouseUp, renderCanvas, handleCanvasObjectModified, handleCanvasSelectionCreated
+    handleCanvasMouseUp,
+    renderCanvas,
+    handleCanvasObjectModified,
+    handleCanvasSelectionCreated,
+    handleCanvasObjectScaling
 } from "@/lib/canvas";
 import {ActiveElement, Attributes} from "@/types/type";
 import {useMutation, useRedo, useStorage, useUndo} from "@/liveblocks.config";
@@ -159,6 +163,13 @@ export default function Page() {
 
             });
         });
+
+        canvas.on("object:scaling", (options: any) => {
+            handleCanvasObjectScaling({
+                options,
+                setElementAttributes
+            })
+        })
 
         window.addEventListener("resize", () => {
             handleResize({
