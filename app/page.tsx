@@ -21,8 +21,8 @@ import {defaultNavElement} from "@/constants";
 import {handleDelete, handleKeyDown} from "@/lib/key-events";
 
 export default function Page() {
-     const undo = useUndo();
-     const redo = useRedo();
+    const undo = useUndo();
+    const redo = useRedo();
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const fabricRef = useRef<fabric.Canvas | null>(null);
