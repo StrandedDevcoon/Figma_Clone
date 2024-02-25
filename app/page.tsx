@@ -15,12 +15,15 @@ import {
     handleCanvasMouseUp, renderCanvas, handleCanvasObjectModified
 } from "@/lib/canvas";
 import {ActiveElement} from "@/types/type";
-import {useMutation, useStorage} from "@/liveblocks.config";
+import {useMutation, useRedo, useStorage, useUndo} from "@/liveblocks.config";
 import {object} from "prop-types";
 import {defaultNavElement} from "@/constants";
 import {handleDelete} from "@/lib/key-events";
 
 export default function Page() {
+     const undo = useUndo();
+     const redo = useRedo();
+
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const fabricRef = useRef<fabric.Canvas | null>(null);
     const isDrawing = useRef(false);
