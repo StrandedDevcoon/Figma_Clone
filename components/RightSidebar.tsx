@@ -39,14 +39,18 @@ const RightSidebar = ({
             <span className="text-xs text-primary-grey-300 mt-3 px-5 border-b border-primary-grey-200 pb-4">
                 Make changes to canvas as you like
             </span>
-
             <Dimensions
                 width={elementAttributes.width}
                 height={elementAttributes.height}
                 handleInputChange={handleInputChange}
                 isEditingRef={isEditingRef}
             />
-            <Text />
+            <Text
+                fontFamily={elementAttributes.fontFamily}
+                fontSize={elementAttributes.fontSize}
+                fontWeight={elementAttributes.fontWeight}
+                handleInputChange={handleInputChange}
+            />
             <Color />
             <Color />
             <Export />
